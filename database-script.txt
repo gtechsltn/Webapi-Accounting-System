@@ -1,0 +1,48 @@
+CREATE DATABASE accounting_auth_system;
+
+
+
+CREATE TABLE public.users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE public.roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE public.user_roles (
+    user_id INT,
+    role_id INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES public.users(user_id),
+    FOREIGN KEY (role_id) REFERENCES public.roles(role_id)
+);
+
+
+CREATE TABLE public.accounts (
+    account_id SERIAL PRIMARY KEY,
+    account_number VARCHAR(20) UNIQUE NOT NULL,
+    account_name VARCHAR(100) NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance DECIMAL(18, 2) DEFAULT 0.00
+);
+
+CREATE TABLE public.vouchers (
+    voucher_id SERIAL PRIMARY KEY,
+    voucher_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    description TEXT NOT NULL,
+    total_amount DECIMAL(18, 2) NOT NULL
+);
+
+CREATE TABLE public.transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    voucher_id INT,
+    account_id INT,
+    debit_amount DECIMAL(18, 2) DEFAULT 0.00,
+    credit_amount DECIMAL(18, 2) DEFAULT 0.00,
+    FOREIGN KEY (voucher_id) REFERENCES public.vouchers(voucher_id),
+    FOREIGN KEY (account_id) REFERENCES public.accounts(account_id)
+);

@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Dapper;
+using Npgsql;
 using System.Data;
 
 namespace AccountingWebAPI.Data
@@ -16,7 +17,10 @@ namespace AccountingWebAPI.Data
 
         public IDbConnection CreateDbConnection()
         {
-            return new NpgsqlConnection(_connectionString);
+            var connection = new NpgsqlConnection(_connectionString);
+            //connection.ExecuteAsync("SET search_path TO public");
+
+            return connection;
         }
     }
 }

@@ -2,6 +2,7 @@
 using AccountingWebAPI.Interfaces;
 using AccountingWebAPI.Models;
 using Dapper;
+using Microsoft.AspNetCore.Identity;
 using System.Data;
 
 namespace AccountingWebAPI.Repositorys
@@ -19,9 +20,11 @@ namespace AccountingWebAPI.Repositorys
         public async Task<int> CreateUserAsync(users user)
         {
             var query = "INSERT INTO users (username, password_hash) VALUES (@Username, @PasswordHash) RETURNING user_id;";
+
+
             using (var _dbConnection = _dbcontext.CreateDbConnection())
             {
-                return await _dbConnection.ExecuteScalarAsync<int>(query, new { user.username, user.password_hash });
+                return await _dbConnection.ExecuteScalarAsync<int>(query, new { user.username, PasswordHash=user.password_hash });
             }
         }
 

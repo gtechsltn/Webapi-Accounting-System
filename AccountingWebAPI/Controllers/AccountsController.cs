@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AccountingWebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsRepository _accountRepository;

@@ -1,0 +1,38 @@
+﻿@inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    private bool isAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await localStorage.GetItemAsync<string>("authToken");
+
+        isAuthenticated = !string.IsNullOrEmpty(token);
+
+        if (!isAuthenticated){
+
+          if (!Navigation.Uri.Contains("/auth/login") && !Navigation.Uri.Contains("/auth/register"))
+            {
+                Navigation.NavigateTo("/auth/login", true);
+            }
+
+        }
+
+
+    }
+}

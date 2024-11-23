@@ -1,11 +1,13 @@
 ﻿using AccountingWebAPI.Interfaces;
 using AccountingWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountingWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class RolesController : ControllerBase
     {
         private readonly IRolesRepository _rolesRepository;

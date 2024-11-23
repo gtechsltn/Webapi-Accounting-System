@@ -3,20 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingWebAPI", "AccountingWebAPI\AccountingWebAPI.csproj", "{CE8477DD-AD39-4697-A893-09207AF191D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingWebAPI", "AccountingWebAPI\AccountingWebAPI.csproj", "{CE8477DD-AD39-4697-A893-09207AF191D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountClientApp", "AccountClientApp\AccountClientApp.csproj", "{81FD44B2-4BD7-4D4A-BD75-3F7A86C12732}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CE8477DD-AD39-4697-A893-09207AF191D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE8477DD-AD39-4697-A893-09207AF191D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE8477DD-AD39-4697-A893-09207AF191D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE8477DD-AD39-4697-A893-09207AF191D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81FD44B2-4BD7-4D4A-BD75-3F7A86C12732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FD44B2-4BD7-4D4A-BD75-3F7A86C12732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FD44B2-4BD7-4D4A-BD75-3F7A86C12732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FD44B2-4BD7-4D4A-BD75-3F7A86C12732}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FDB6F0C-928B-4DD8-9178-465755975BE8}
 	EndGlobalSection
 EndGlobal

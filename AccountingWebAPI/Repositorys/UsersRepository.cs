@@ -19,12 +19,12 @@ namespace AccountingWebAPI.Repositorys
         // Create
         public async Task<int> CreateUserAsync(users user)
         {
-            var query = "INSERT INTO users (username, password_hash) VALUES (@Username, @PasswordHash) RETURNING user_id;";
+            var query = "INSERT INTO users (username, password_hash,email) VALUES (@Username, @password_hash,@email) RETURNING user_id;";
 
 
             using (var _dbConnection = _dbcontext.CreateDbConnection())
             {
-                return await _dbConnection.ExecuteScalarAsync<int>(query, new { user.username, PasswordHash=user.password_hash });
+                return await _dbConnection.ExecuteScalarAsync<int>(query, user);
             }
         }
 

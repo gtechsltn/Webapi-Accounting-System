@@ -1,0 +1,57 @@
+﻿@page "/auth/login"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" @bind="email" placeholder="Enter your email" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" @bind="password" placeholder="Enter your password" />
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" @onclick="LoginUser">Login</button>
+                        <p class="text-danger mt-3 text-center">@message</p>
+                    </form>
+                    if you have no account then <a href="/auth/register" target="_blank">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string email, password;
+    private string message = "";
+
+    private async Task LoginUser()
+    {
+        var loginDetails = new { email, password };
+
+        var response = await Http.PostAsJsonAsync("api/auth/login", loginDetails);
+
+        if (response.IsSuccessStatusCode)
+        {
+            message = "Login successful!";
+            // Store token (e.g., in local storage)
+            var token = await response.Content.ReadAsStringAsync();
+            await localStorage.SetItemAsync("authToken", token);
+
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            message = "Login failed. Please try again.";
+        }
+    }
+}

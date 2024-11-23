@@ -1,0 +1,56 @@
+﻿@page "/auth/register"
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+    <h3 class="text-center">User Registration</h3>
+    <form>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" class="form-control" @bind="username" />
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" class="form-control" @bind="email" />
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" @bind="password" />
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password:</label>
+            <input type="password" id="confirmPassword" class="form-control" @bind="confirmPassword" />
+        </div>
+        <button type="button" class="btn btn-primary w-100" @onclick="RegisterUser">Register</button>
+    </form>
+    <p class="mt-3 text-center">@message</p>
+</div>
+
+
+@code {
+    private string username, email, password, confirmPassword;
+    private string message = "";
+
+    private async Task RegisterUser()
+    {
+        if (password != confirmPassword)
+        {
+            message = "Passwords do not match.";
+            return;
+        }
+
+        var user = new { username = username, email = email, password_hash = password };
+        var response = await Http.PostAsJsonAsync("api/auth/registration", user);
+        if (response.IsSuccessStatusCode)
+        {
+            message = response.IsSuccessStatusCode ? "Registration successful!" : "Registration failed.";
+            Navigation.NavigateTo("/auth/login");
+
+        }
+        else
+        {
+             message = response.IsSuccessStatusCode ? "Registration successful!" : "Registration failed.";
+        }
+    }
+}

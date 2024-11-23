@@ -1,0 +1,28 @@
+﻿@page "/assign-role"
+@inject HttpClient Http
+
+<h3>Assign Role</h3>
+<div>
+    <label>Username:</label>
+    <input type="text" @bind="username" />
+</div>
+<div>
+    <label>Role:</label>
+    <input type="text" @bind="role" />
+</div>
+<button @onclick="AssignRoleToUser">Assign Role</button>
+
+<p>@message</p>
+
+@code {
+    private string username, role;
+    private string message = "";
+
+    private async Task AssignRoleToUser()
+    {
+        var payload = new { Username = username, Role = role };
+        var response = await Http.PostAsJsonAsync("api/auth/assign-role", payload);
+
+        message = response.IsSuccessStatusCode ? "Role assigned successfully!" : "Failed to assign role.";
+    }
+}

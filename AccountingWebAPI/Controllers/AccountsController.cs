@@ -1,14 +1,17 @@
 ﻿using AccountingWebAPI.Interfaces;
 using AccountingWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountingWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsRepository _accountRepository;
+       
 
         public AccountsController(IAccountsRepository accountRepository)
         {
@@ -30,6 +33,7 @@ namespace AccountingWebAPI.Controllers
                 return NotFound();
             return Ok(account);
         }
+
 
         [HttpPost]
         public async Task<ActionResult<int>> CreateAccount(accounts account)

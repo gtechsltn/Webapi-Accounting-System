@@ -10,8 +10,7 @@ namespace AccountingWebAPI.Controllers
     [Authorize]
     public class AccountsController : ControllerBase
     {
-        private readonly IAccountsRepository _accountRepository;
-       
+        private readonly IAccountsRepository _accountRepository;       
 
         public AccountsController(IAccountsRepository accountRepository)
         {

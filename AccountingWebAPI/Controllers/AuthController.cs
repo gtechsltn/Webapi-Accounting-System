@@ -1,6 +1,7 @@
 ﻿using AccountingWebAPI.Interfaces;
 using AccountingWebAPI.Models;
 using AccountingWebAPI.Repositorys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace AccountingWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] usersrequest request)
         {
+            var loing_info = new TokenResponse();
             var user = new users();
             user.email = request.email;
             user.password_hash = request.password;
@@ -32,11 +34,12 @@ namespace AccountingWebAPI.Controllers
 
             if (auths.user_id>0) // Replace with your user validation logic
             {
-                var token = await _authsRepository.GenerateJwtToken(auths.username);
-                return Ok(new { 
-                    Token = token,
-                    Username=user.username
-                });
+                var token = await _authsRepository.GenerateJwtToken(auths.username, auths.rolelist);
+                loing_info.email = user.email;
+                loing_info.token = token;
+                loing_info.username = auths.username;
+
+                return Ok(loing_info);
             }
             return Unauthorized();
         }
@@ -65,6 +68,7 @@ namespace AccountingWebAPI.Controllers
         }
 
 
+        [Authorize(Roles = "1")]
         [HttpPost]
         public async Task<IActionResult> ChangePass([FromBody] passchangerequest user)
         {

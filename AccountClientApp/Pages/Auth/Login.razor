@@ -44,8 +44,8 @@
         {
             message = "Login successful!";
             // Store token (e.g., in local storage)
-            var token = await response.Content.ReadAsStringAsync();
-            await localStorage.SetItemAsync("authToken", token);
+            var login_info = await response.Content.ReadAsStringAsync();
+            await localStorage.SetItemAsync("authToken", login_info);
 
             Navigation.NavigateTo("/");
         }

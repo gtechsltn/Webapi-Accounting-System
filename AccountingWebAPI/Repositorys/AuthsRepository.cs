@@ -40,20 +40,28 @@ namespace AccountingWebAPI.Repositorys
 
                 var result = await _dbConnection.QueryAsync<user_roles>(query1, auths);
 
-                auths.roles = result.ToList();
+                auths.rolelist = result.ToList();
             }
 
             return auths;
         }
 
 
-        public async Task<string> GenerateJwtToken(string username)
+        public async Task<string> GenerateJwtToken(string username, List<user_roles> rolelist)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-            new Claim(JwtRegisteredClaimNames.Sub, username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-             };
+                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            if (rolelist != null)
+            {
+                foreach (var role in rolelist)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.role_id.ToString()));
+                }
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -73,7 +81,7 @@ namespace AccountingWebAPI.Repositorys
         public async Task<auths> ChangePassAsync(users user)
         {
             var auth = new auths();
-            var query = "UPDATE users SET password_hash = @PasswordHash WHERE user_id = @UserId;";
+            var query = "UPDATE users SET password_hash = @password_hash WHERE user_id = @UserId;";
             using (var _dbConnection = _dbcontext.CreateDbConnection())
             {
                 var result=await _dbConnection.ExecuteAsync(query, new { user.password_hash, UserId = user.user_id });
